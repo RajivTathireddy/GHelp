@@ -1,74 +1,68 @@
 package structure
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 // creates new project directory from given path argument relative user's home directory specified by $HOME in Unix systmes
 // ex.gelp test --> /home/usr/test
-func CreateProject(flags flag.FlagSet) error{
-	path := getStringFlag(flags,"name")
-	if path == ""{
-		return errors.New("Project Name cannot be empty")
-	}
-	cmd := getBoolFlag(flags,"cmd")
-	fmt.Println(path,cmd)
-	dirpath,cmdpath,err := createPath(path,cmd)
+func CreateProject(flags flag.FlagSet) error {
+	path := getStringFlag(flags, "name")
+	 if isEmptyOrWhitespace(path){
+		return fmt.Errorf("path cannot be empty")
+	 }
+	cmd := getBoolFlag(flags, "cmd")
+	userHomedir, err := os.UserHomeDir()
 	if err != nil {
-		return err 
+		return err
 	}
+	dirpath, cmdpath := createPath(userHomedir, path, cmd)
 	fmt.Println("Creating New Go project")
 	err = createProjectDir(cmdpath)
 	if err != nil {
-		return err 
+		return err
 	}
 	fmt.Println("Creating files for project directory")
 	err = createProjectFiles(dirpath)
 	if err != nil {
-		return err 
-	}
-	return nil
-}
-
-func createProjectDir(dirpath string) error {
-	cmd := exec.Command("mkdir","-p",dirpath)
-	if err := cmd.Run(); err != nil {
 		return err
 	}
 	return nil
 }
 
+// creates New directory at the specified path (will not create it if already exits
+func createProjectDir(dirpath string) error {
+	if err := os.MkdirAll(dirpath, 0751); err != nil {
+		return err
+	}
+	return nil
+}
 
-
-
-func createProjectFiles(projectDir string) error{
-	filesList := []string{".gitignore",".env"}
-	for _,filename := range filesList{
-		_,err := os.Create(filepath.Join(projectDir,filename))
+func createProjectFiles(projectDir string) error {
+	filesList := []string{".gitignore", ".env"}
+	for _, filename := range filesList {
+		_, err := os.Create(filepath.Join(projectDir, filename))
 		if err != nil {
-			return err 
+			return err
 		}
 	}
 	return nil
 }
 
-
-
-func createPath(userpath string,flag bool) (string,string,error){
-	homedir,err  := os.UserHomeDir()
-	if err != nil{
-		return "","",nil
-	}
+func createPath(homedir, userpath string, flag bool) (string, string) {
 	dir := "pkg"
-	if flag{
+	if flag {
 		dir = "cmd"
 	}
-	dirpath := filepath.Join(homedir,userpath)
-	cmdpath := filepath.Join(homedir,userpath,dir)
-	return dirpath,cmdpath,nil
+	dirpath := filepath.Join(homedir, userpath)
+	cmdpath := filepath.Join(homedir, userpath, dir)
+	return dirpath, cmdpath
+}
+
+func isEmptyOrWhitespace(s string) bool {
+    return strings.TrimSpace(s) == ""
 }

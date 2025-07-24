@@ -1,3 +1,3 @@
-# Gelp 
+# GHelp 
 
 **A quick way to setup your go projects**

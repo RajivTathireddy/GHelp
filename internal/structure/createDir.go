@@ -11,7 +11,7 @@ import (
 // creates new project directory from given path argument relative user's home directory specified by $HOME in Unix systmes
 // ex.gelp test --> /home/usr/test
 func CreateProject(flags flag.FlagSet) error {
-	path := getStringFlag(flags, "name")
+	path := getStringFlag(flags, "p")
 	 if isEmptyOrWhitespace(path){
 		return fmt.Errorf("path cannot be empty")
 	 }
@@ -34,16 +34,16 @@ func CreateProject(flags flag.FlagSet) error {
 	return nil
 }
 
-// creates New directory at the specified path (will not create it if already exits
+// creates New directory at the specified path (will not create it if already exits)
 func createProjectDir(dirpath string) error {
 	if err := os.MkdirAll(dirpath, 0751); err != nil {
 		return err
 	}
 	return nil
 }
-
+//creates .env files in the project directory
 func createProjectFiles(projectDir string) error {
-	filesList := []string{".gitignore", ".env"}
+	filesList := []string{".gitignore", ".env","README.md"}
 	for _, filename := range filesList {
 		_, err := os.Create(filepath.Join(projectDir, filename))
 		if err != nil {
@@ -52,7 +52,7 @@ func createProjectFiles(projectDir string) error {
 	}
 	return nil
 }
-
+//creates path to the new directory and the internal directories(cmd or pkg)
 func createPath(homedir, userpath string, flag bool) (string, string) {
 	dir := "pkg"
 	if flag {

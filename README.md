@@ -98,8 +98,8 @@ When you run GHelp, it creates the following structure:
 ## What GHelp Does
 
 1. **Directory Creation**: Creates a new directory at the specified path relative to your home directory
-2. **Go Module Initialization**: Runs `go mod init` to set up the Go module if you -r flag is provided
-3. **Git Repository Setup**: Initializes a local Git repository if you -r flag is provided
+2. **Go Module Initialization**: Runs `go mod init` to set up the Go module if the -r flag is provided
+3. **Git Repository Setup**: Initializes a local Git repository if the -r flag is provided
 4. **GitHub Integration**: Creates a remote repository on GitHub (if `-r` flag is provided)
 5. **Remote Connection**: Links local repository to GitHub remote
 6. **File Generation**: Creates essential files like `README.md`, `.gitignore`, and `main.go`
@@ -126,5 +126,5 @@ If you encounter any issues or have questions, please:
 ---
 
 <div align="center">
-Personal Project by [Rajiv]
+Personal Project by #Rajiv
 </div>

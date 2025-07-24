@@ -49,7 +49,7 @@ func TestCreateProjectDir(t *testing.T) {
 	})
 }
 
-func TestCreateProjectFiles(t *testing.T){
+func TestCreateProjectFiles(t *testing.T) {
 	t.Run("test . files", func(t *testing.T) {
 		tmpDir := t.TempDir()
 
@@ -58,11 +58,11 @@ func TestCreateProjectFiles(t *testing.T){
 			t.Fatal(err)
 		}
 
-		_, err = os.Stat(filepath.Join(tmpDir,".gitignore"))
+		_, err = os.Stat(filepath.Join(tmpDir, ".gitignore"))
 		if err != nil {
 			t.Fatal(err)
 		}
-		_, err = os.Stat(filepath.Join(tmpDir,".env"))
+		_, err = os.Stat(filepath.Join(tmpDir, ".env"))
 		if err != nil {
 			t.Fatal(err)
 		}

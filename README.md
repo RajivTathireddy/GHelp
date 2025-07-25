@@ -14,7 +14,7 @@ A powerful Go CLI tool that streamlines the creation of new Go projects by autom
 ## Installation
 
 ```bash
-go install github.com/yourusername/GHelp@latest
+go install github.com/RajivTathireddy/GHelp@latest
 ```
 
 ## Prerequisites

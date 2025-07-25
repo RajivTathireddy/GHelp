@@ -1,6 +1,6 @@
 # GHelp 🚀
 
-A powerful Go CLI tool that streamlines the creation of new Go projects by automatically setting up directory structure, initializing Git repositories, and creating GitHub repositories with a single command.
+A powerful Go CLI tool that streamlines the creation of new Go projects by automatically setting up directory structure, initializing Git repositories, creating GitHub repositories and automatically opens the new project in VsCode with a single command.
 
 ## Features ✨
 

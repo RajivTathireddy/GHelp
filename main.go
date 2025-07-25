@@ -30,10 +30,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	var gitUrl string
 	if *repo != "" {
-		gitUrl := remote.CreateRemoteRepo(*repo, *desc)
-		setup.CompleteSetup(dirPath, gitUrl)
+		gitUrl = remote.CreateRemoteRepo(*repo, *desc)
 	}
+	setup.CompleteSetup(dirPath, gitUrl)
 	fmt.Println("Go project Setup Complete")
 
 }

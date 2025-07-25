@@ -70,6 +70,6 @@ func openVscode(path string) error{
 	if err != nil {
 		return err
 	}
-	fmt.Print("Opening Go Project in Vscode",string(output))
+	fmt.Println("Opening Go Project in Vscode",string(output))
 	return nil
 }

@@ -44,7 +44,7 @@ func createProjectDir(dirpath string) error {
 
 // creates .env files in the project directory
 func createProjectFiles(projectDir string) error {
-	filesList := []string{".gitignore", ".env", "README.md","main.go"}
+	filesList := []string{".gitignore", ".env", "README.md", "main.go"}
 	for _, filename := range filesList {
 		_, err := os.Create(filepath.Join(projectDir, filename))
 		if err != nil {

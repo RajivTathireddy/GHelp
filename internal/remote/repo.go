@@ -12,7 +12,7 @@ import (
 )
 
 func CreateRemoteRepo(name, description string) string {
-	if isEmptyOrWhitespace(name){
+	if isEmptyOrWhitespace(name) {
 		log.Fatal("Repo name cannot be empty")
 	}
 	token, err := getGHToken()
@@ -47,7 +47,7 @@ func CreateRemoteRepo(name, description string) string {
 	return *newRepo.HTMLURL
 }
 
-// gets the user
+// gets the user auth token using github CLI
 func getGHToken() (string, error) {
 	cmd := exec.Command("gh", "auth", "token")
 	output, err := cmd.Output()

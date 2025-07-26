@@ -1,6 +1,6 @@
 # GHelp 🚀
 
-A powerful Go CLI tool that streamlines the creation of new Go projects by automatically setting up directory structure, initializing Git repositories, creating GitHub repositories and automatically opens the new project in VsCode with a single command.
+A powerful Go CLI tool that streamlines the creation of new Go projects by automatically setting up directory structure, initializing Git repositories, creating GitHub repositories and opens the new project in VsCode with a single command.
 
 ## Features ✨
 
@@ -20,7 +20,7 @@ go install github.com/RajivTathireddy/GHelp@latest
 ## Prerequisites
 
 - [Git](https://git-scm.com/) installed and configured
-- [GitHub CLI](https://cli.github.com/) installed and authenticated (required for `-r` flag)
+- [GitHub CLI](https://cli.github.com/) installed and authenticated with classic token created for current active account. You can check it with `git auth token` command (required for `-r` flag)
 - Go 1.19+ (for building from source)
 
 ## Usage
@@ -53,12 +53,13 @@ GHelp -p library-project -cmd=false
 | `-cmd` | `bool` | `true` | When `true`, creates `cmd` subdirectory. When `false`, creates `pkg` subdirectory |
 | `-r` | `string` | - | Name for the remote repository. Only creates GitHub repo if this flag is provided |
 | `-d` | `string` | - | Description for the GitHub repository. Use with `-r` flag |
+| `-n` | `string` | - | Use it to name the module if remote repo is not created.|-|Defaults to `test_module`.|
 
 ## Examples
 
 ### Create a simple project
 ```bash
-GHelp -p calculator
+GHelp -p calculator -n calculator
 ```
 Creates: `~/calculator/` with `cmd/` subdirectory
 

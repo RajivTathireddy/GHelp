@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"github.com/RajivTathireddy/GHelp/internal/remote"
 	"github.com/RajivTathireddy/GHelp/internal/setup"
 	"github.com/RajivTathireddy/GHelp/internal/structure"
@@ -16,6 +15,7 @@ var (
 	cmd      = newFlags.Bool("cmd", true, "creates cmd dir for command line applications (defaults to true) if false creates pkg dir")
 	repo     = newFlags.String("r", "", "Creates remote github repository with the name provided")
 	desc     = newFlags.String("d", "new go project", "Adds description to the remote repo")
+	name     = newFlags.String("n", "test_module", "name of the module if you choose to not create remote repo will be ignore if -r flag is provided")
 )
 
 func main() {
@@ -34,7 +34,6 @@ func main() {
 	if *repo != "" {
 		gitUrl = remote.CreateRemoteRepo(*repo, *desc)
 	}
-	setup.CompleteSetup(dirPath, gitUrl)
-	fmt.Println("Go project Setup Complete")
+	setup.CompleteSetup(dirPath, gitUrl, *name)
 
 }

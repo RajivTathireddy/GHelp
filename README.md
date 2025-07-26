@@ -53,7 +53,7 @@ GHelp -p library-project -cmd=false
 | `-cmd` | `bool` | `true` | When `true`, creates `cmd` subdirectory. When `false`, creates `pkg` subdirectory |
 | `-r` | `string` | - | Name for the remote repository. Only creates GitHub repo if this flag is provided |
 | `-d` | `string` | - | Description for the GitHub repository. Use with `-r` flag |
-| `-n` | `string` | - | Use it to name the module if remote repo is not created.Defaults to `test_module` and will ignored if `-r` flag is provided.|
+| `-n` | `string` | test_module | Use it to name the module if remote repo is not created.It will ignored if `-r` flag is provided.|
 
 ## Examples
 

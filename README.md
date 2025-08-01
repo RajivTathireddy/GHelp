@@ -20,7 +20,7 @@ go install github.com/RajivTathireddy/GHelp@latest
 ## Prerequisites
 
 - [Git](https://git-scm.com/) installed and configured
-- [GitHub CLI](https://cli.github.com/) installed and authenticated with classic token created for current active account. You can check it with `git auth token` command (required for `-r` flag)
+- [GitHub CLI](https://cli.github.com/) installed and authenticated with classic token created for current active account. You can check it with `gh auth token` command (required for `-r` flag)
 - Go 1.19+ (for building from source)
 
 ## Usage
@@ -36,7 +36,7 @@ GHelp [flags]
 GHelp
 
 # Create project at specific path
-GHelp -p myawesome-project
+GHelp -p myawesome-project -n test_module
 
 # Create project with GitHub repository
 GHelp -p web-app -r my-web-app -d "My awesome web application"
@@ -49,7 +49,7 @@ GHelp -p library-project -cmd=false
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-p` | `string` | `NewProject` | Creates directory at specified path relative to user's home directory. Will not create if path already exists |
+| `-p` | `string` | `NewProject` | Creates directory at specified path relative to user's home directory. Will throw an error if directory already exists |
 | `-cmd` | `bool` | `true` | When `true`, creates `cmd` subdirectory. When `false`, creates `pkg` subdirectory |
 | `-r` | `string` | - | Name for the remote repository. Only creates GitHub repo if this flag is provided |
 | `-d` | `string` | - | Description for the GitHub repository. Use with `-r` flag |
@@ -99,11 +99,11 @@ When you run GHelp, it creates the following structure:
 ## What GHelp Does
 
 1. **Directory Creation**: Creates a new directory at the specified path relative to your home directory
-2. **Go Module Initialization**: Runs `go mod init` to set up the Go module if the -r flag is provided
-3. **Git Repository Setup**: Initializes a local Git repository if the -r flag is provided
+2. **Go Module Initialization**: Creates Go module 
+3. **Git Repository Setup**: Initializes a local Git repository
 4. **GitHub Integration**: Creates a remote repository on GitHub (if `-r` flag is provided)
-5. **Remote Connection**: Links local repository to GitHub remote
-6. **File Generation**: Creates essential files like `README.md`, `.gitignore`, and `main.go`
+5. **Remote Connection**: Links local repository to GitHub repo if you choose to create remote repo
+6. **File Generation**: Creates essential files like `README.md`, `.gitignore`, and `.env`
 
 
 ## Contributing

@@ -31,6 +31,10 @@ func CreateProject(flags flag.FlagSet) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	err = createMain(cmdpath)
+	if err != nil {
+		return "",err 
+	}
 	return dirpath, nil
 }
 
@@ -42,9 +46,9 @@ func createProjectDir(dirpath string) error {
 	return nil
 }
 
-// creates .env files in the project directory
+// creates common files in the project directory
 func createProjectFiles(projectDir string) error {
-	filesList := []string{".gitignore", ".env", "README.md", "main.go"}
+	filesList := []string{".gitignore", ".env", "README.md"}
 	for _, filename := range filesList {
 		_, err := os.Create(filepath.Join(projectDir, filename))
 		if err != nil {
@@ -56,6 +60,11 @@ func createProjectFiles(projectDir string) error {
 
 // creates path to the new directory and the internal directories(cmd or pkg)
 func createPath(homedir, userpath string, flag bool) (string, string) {
+	_,err := os.Stat(filepath.Join(homedir,userpath))
+	if err == nil {
+		fmt.Println("Directory already exists")
+		os.Exit(1)
+	}
 	dir := "pkg"
 	if flag {
 		dir = "cmd"
@@ -68,3 +77,13 @@ func createPath(homedir, userpath string, flag bool) (string, string) {
 func isEmptyOrWhitespace(s string) bool {
 	return strings.TrimSpace(s) == ""
 }
+
+
+func createMain(dirPath string) error{
+	_,err := os.Create(filepath.Join(dirPath,"main.go"))
+	if err != nil {
+		return err 
+	}
+	return nil
+}
+

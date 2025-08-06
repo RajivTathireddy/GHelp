@@ -21,20 +21,20 @@ func getBoolFlag(flags flag.FlagSet, name string) bool {
 	return false
 }
 
-func getIntFlag(flags flag.FlagSet, name string) int {
-	if f := flags.Lookup(name); f != nil {
-		if val, err := strconv.Atoi(f.Value.String()); err == nil {
-			return val
-		}
-	}
-	return 0
-}
+// func getIntFlag(flags flag.FlagSet, name string) int {
+// 	if f := flags.Lookup(name); f != nil {
+// 		if val, err := strconv.Atoi(f.Value.String()); err == nil {
+// 			return val
+// 		}
+// 	}
+// 	return 0
+// }
 
-func getInt64Flag(flags flag.FlagSet, name string) int64 {
-	if f := flags.Lookup(name); f != nil {
-		if val, err := strconv.ParseInt(f.Value.String(), 10, 64); err == nil {
-			return val
-		}
-	}
-	return 0
-}
+// func getInt64Flag(flags flag.FlagSet, name string) int64 {
+// 	if f := flags.Lookup(name); f != nil {
+// 		if val, err := strconv.ParseInt(f.Value.String(), 10, 64); err == nil {
+// 			return val
+// 		}
+// 	}
+// 	return 0
+// }

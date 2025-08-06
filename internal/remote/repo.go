@@ -11,7 +11,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func CreateRemoteRepo(name, description string) string {
+func CreateRemoteRepo(stream chan<- string,private bool,name, description string) {
 	if isEmptyOrWhitespace(name) {
 		log.Fatal("Repo name cannot be empty")
 	}
@@ -33,7 +33,7 @@ func CreateRemoteRepo(name, description string) string {
 	repo := &github.Repository{
 		Name:        github.Ptr(name),
 		Description: github.Ptr(description),
-		Private:     github.Ptr(false),
+		Private:     github.Ptr(private),
 		AutoInit:    github.Ptr(false),
 	}
 
@@ -44,7 +44,7 @@ func CreateRemoteRepo(name, description string) string {
 	}
 
 	fmt.Printf("Repository created: %s\n", *newRepo.HTMLURL)
-	return *newRepo.HTMLURL
+	stream <- *newRepo.HTMLURL
 }
 
 // gets the user auth token using github CLI

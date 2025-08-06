@@ -16,6 +16,7 @@ var (
 	repo     = newFlags.String("r", "", "Creates remote github repository with the name provided")
 	desc     = newFlags.String("d", "new go project", "Adds description to the remote repo")
 	name     = newFlags.String("n", "test_module", "name of the module if you choose to not create remote repo will be ignore if -r flag is provided")
+	private  	 = newFlags.Bool("prv",false,"Sets the flag for private repo")
 )
 
 func main() {
@@ -25,15 +26,18 @@ func main() {
 	}
 	if *path == "" {
 		log.Fatal("Please provide path for the project")
+	} 
+	stream := make(chan string)
+	if *repo != ""{
+		go remote.CreateRemoteRepo(stream,*private,*repo, *desc)
+	}else{
+		close(stream)
 	}
 	dirPath, err := structure.CreateProject(*newFlags)
 	if err != nil {
 		log.Fatal(err)
 	}
-	var gitUrl string
-	if *repo != "" {
-		gitUrl = remote.CreateRemoteRepo(*repo, *desc)
-	}
-	setup.CompleteSetup(dirPath, gitUrl, *name)
+	
+	setup.CompleteSetup(stream,dirPath,*name)
 
 }

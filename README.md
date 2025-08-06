@@ -54,6 +54,7 @@ GHelp -p library-project -cmd=false
 | `-r` | `string` | - | Name for the remote repository. Only creates GitHub repo if this flag is provided |
 | `-d` | `string` | - | Description for the GitHub repository. Use with `-r` flag |
 | `-n` | `string` | test_module | Use it to name the module if remote repo is not created.It will ignored if `-r` flag is provided.|
+| `-prv` | `bool` | false | Manages the visibility of the Remote repo. Use with `-r` flag |
 
 ## Examples
 

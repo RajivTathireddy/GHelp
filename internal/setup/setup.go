@@ -4,28 +4,45 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+	"sync"
 )
 
-func CompleteSetup(dirpath, repoUrl, name string) {
-	err := intiateGit(dirpath)
-	if err != nil {
-		log.Fatal("error while initiating local git", err)
-	}
-	if repoUrl != "" {
-		err = addRemote(dirpath, repoUrl)
+func CompleteSetup(stream chan string,dirpath,name string) {
+	var err error
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func(wg *sync.WaitGroup){
+		defer wg.Done()
+		err = intiateGit(dirpath)
 		if err != nil {
-			log.Fatal("Error while connecting to remote repo", err)
+			log.Fatal("error while initiating local git", err)
 		}
+	}(&wg)
+	repoUrl := <- stream
+	if repoUrl != "" {
+		wg.Add(1)
+		go func(wg *sync.WaitGroup){
+			defer wg.Done()
+			err = addRemote(dirpath, repoUrl)
+			if err != nil {
+				log.Fatal("Error while connecting to remote repo", err)
+			}
+		}(&wg)
 	}
-	err = goMod(dirpath, repoUrl, name)
-	if err != nil {
-		log.Fatal("Error while performing initializing go module", err)
-	}
+	wg.Add(1)
+	go func(wg *sync.WaitGroup) {
+		defer wg.Done()
+		err = goMod(dirpath, repoUrl, name)
+		if err != nil {
+			log.Fatal("Error while performing initializing go module", err)
+		}
+	}(&wg)
+	
 	err = openVscode(dirpath)
 	if err != nil {
 		log.Fatal("Error while opening Vscode", err)
 	}
-
+	wg.Wait()
 }
 
 func goMod(path, remoteRepoURL, moduleName string) error {
@@ -45,22 +62,22 @@ func goMod(path, remoteRepoURL, moduleName string) error {
 func intiateGit(path string) error {
 	cmd := exec.Command("git", "init")
 	cmd.Dir = path
-	output, err := cmd.CombinedOutput()
+	_, err := cmd.CombinedOutput()
 	if err != nil {
 		return err
 	}
-	fmt.Println("Git init output:", string(output)[:62])
+	fmt.Println("Intialized empty Git repositary in ",path)
 	return nil
 }
 
 func addRemote(path, gitUrl string) error {
 	cmd := exec.Command("git", "remote", "add", "origin", gitUrl+".git")
 	cmd.Dir = path
-	output, err := cmd.CombinedOutput()
+	_, err := cmd.CombinedOutput()
 	if err != nil {
 		return err
 	}
-	fmt.Print(string(output))
+	fmt.Println("Adding Remote Origin to local Repo...")
 	return nil
 
 }
@@ -68,11 +85,11 @@ func addRemote(path, gitUrl string) error {
 func openVscode(path string) error {
 	cmd := exec.Command("code", path)
 	cmd.Dir = path
-	output, err := cmd.CombinedOutput()
+	_, err := cmd.CombinedOutput()
 	if err != nil {
 		return err
 	}
 	fmt.Println("Go project Setup Complete")
-	fmt.Println("Opening Go Project in Vscode", string(output))
+	fmt.Println("Opening Go Project in Vscode")
 	return nil
 }
